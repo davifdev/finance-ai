@@ -10,6 +10,8 @@
     "prepare": "husky"
   },
   "dependencies": {
+    "@clerk/nextjs": "^5.7.6",
+    "@clerk/themes": "^2.4.57",
     "@prisma/adapter-pg": "^7.10.0",
     "@prisma/client": "^7.10.0",
     "@radix-ui/react-slot": "^1.3.3",
