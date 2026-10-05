@@ -1,4 +1,4 @@
-const Transactions = () => {
+const Transactions = async () => {
   return <h2>Transaction Page</h2>;
 };
 
