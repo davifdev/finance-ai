@@ -53,7 +53,9 @@ const formSchema = z.object({
   name: z.string().trim().min(1, {
     message: "O nome é obrigatório.",
   }),
-  amount: z.number(),
+  amount: z
+    .number({ required_error: "O valor é obrigatório." })
+    .positive({ message: "O valor deve ser positivo." }),
   type: z.nativeEnum(TransactionType, {
     required_error: "O tipo é obrigatório.",
   }),
@@ -144,6 +146,7 @@ const UpsertTransactionDialog = ({
                   <FormControl>
                     <MoneyInput
                       placeholder="Digite o valor..."
+                      value={field.value}
                       onValueChange={({ floatValue }) =>
                         field.onChange(floatValue)
                       }
