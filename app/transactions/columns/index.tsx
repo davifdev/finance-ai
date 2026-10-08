@@ -8,7 +8,8 @@ import {
   TRANSACTION_PAYMENT_METHOD,
 } from "@/app/constants";
 import { Button } from "@/app/components/ui/button";
-import { PencilIcon, TrashIcon } from "lucide-react";
+import EditTransactionButton from "./components/edit-transaction-button";
+import { TrashIcon } from "lucide-react";
 
 const TRANSACTION_CATEGORY_LABELS = {
   [TRANSACTION_CATEGORY.EDUCATION]: "Educação",
@@ -78,12 +79,10 @@ export const transactionColumns: ColumnDef<Transaction>[] = [
   {
     accessorKey: "actions",
     header: "",
-    cell: () => {
+    cell: ({ row: { original: transaction } }) => {
       return (
         <div>
-          <Button variant="ghost" size="icon" className="text-muted-foreground">
-            <PencilIcon />
-          </Button>
+          <EditTransactionButton transaction={transaction} />
           <Button variant="ghost" size="icon" className="text-muted-foreground">
             <TrashIcon />
           </Button>
