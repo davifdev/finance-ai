@@ -21,17 +21,17 @@ export const createStripeCheckout = async () => {
     mode: "subscription",
     success_url: "http://localhost:3000",
     cancel_url: "http://localhost:3000",
-    subscription_data: {
-      metadata: {
-        clerk_user_id: userId,
-      },
-    },
     line_items: [
       {
         price: process.env.STRIPE_PREMIUM_PLAN_PRICE_ID,
         quantity: 1,
       },
     ],
+    subscription_data: {
+      metadata: {
+        clerk_user_id: userId,
+      },
+    },
   });
   return {
     sessionId: session.id,
