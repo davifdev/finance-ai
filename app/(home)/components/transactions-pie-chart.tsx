@@ -57,7 +57,7 @@ const TransactionsPieChart = ({
     {
       type: TransactionType.INVESTMENT,
       amount: investmentsTotal,
-      fill: "#FFFFFF",
+      fill: "#2662d9",
     },
   ];
   return (
@@ -93,7 +93,7 @@ const TransactionsPieChart = ({
             value={typesPercentage[TransactionType.EXPENSE]}
           />
           <PercentageItem
-            icon={<PiggyBankIcon size={16} />}
+            icon={<PiggyBankIcon size={16} className="text-chart-1" />}
             title="Investido"
             value={typesPercentage[TransactionType.INVESTMENT]}
           />

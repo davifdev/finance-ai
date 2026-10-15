@@ -5,6 +5,7 @@ import AddTransactionButton from "../components/add-transaction-button";
 import Navbar from "../components/navbar";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
+import { canUserAddTransaction } from "../data/can-user-add-transaction";
 
 const Transactions = async () => {
   const { userId } = await auth();
@@ -16,6 +17,7 @@ const Transactions = async () => {
       userId,
     },
   });
+  const userCanAddTransactions = await canUserAddTransaction();
 
   return (
     <>
@@ -23,7 +25,9 @@ const Transactions = async () => {
       <div className="p-6 space-y-6">
         <div className="flex justify-between">
           <h1 className="text-2xl font-bold">Transações</h1>
-          <AddTransactionButton />
+          <AddTransactionButton
+            userCanAddTransaction={userCanAddTransactions}
+          />
         </div>
         <DataTable columns={transactionColumns} data={transactions} />
       </div>

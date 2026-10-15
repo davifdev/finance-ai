@@ -3,6 +3,7 @@ import { Mulish } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
 import { dark } from "@clerk/themes";
 import "./globals.css";
+import { TooltipProvider } from "./components/ui/tooltip";
 
 const mulish = Mulish({
   subsets: ["latin-ext"],
@@ -26,7 +27,7 @@ export default function RootLayout({
             baseTheme: dark,
           }}
         >
-          {children}
+          <TooltipProvider>{children}</TooltipProvider>
         </ClerkProvider>
       </body>
     </html>

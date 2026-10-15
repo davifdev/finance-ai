@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader } from "../components/ui/card";
 import { CheckIcon, XIcon } from "lucide-react";
 import AcquirePlanButton from "./components/acquire-plan-button";
 import { Badge } from "../components/ui/badge";
+import { getCurrentMonthTransactions } from "../data/get-current-month-transactions";
 
 const Subscription = async () => {
   const { userId } = await auth();
@@ -14,6 +15,7 @@ const Subscription = async () => {
 
   const user = await clerkClient().users.getUser(userId);
   const hasPremiumPlan = user.publicMetadata.subscriptionPlan === "premium";
+  const currentMonthTransactions = await getCurrentMonthTransactions();
 
   return (
     <>
@@ -43,7 +45,10 @@ const Subscription = async () => {
                 <p>
                   Apenas 10 transações por mês{" "}
                   <strong>
-                    <span className="text-primary">7</span>/10
+                    <span className="text-primary">
+                      {currentMonthTransactions}
+                    </span>
+                    /10
                   </strong>
                 </p>
               </div>
