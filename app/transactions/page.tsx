@@ -6,6 +6,7 @@ import Navbar from "../components/navbar";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { canUserAddTransaction } from "../data/can-user-add-transaction";
+import { ScrollArea, ScrollBar } from "../components/ui/scroll-area";
 
 const Transactions = async () => {
   const { userId } = await auth();
@@ -29,7 +30,10 @@ const Transactions = async () => {
             userCanAddTransaction={userCanAddTransactions}
           />
         </div>
-        <DataTable columns={transactionColumns} data={transactions} />
+        <ScrollArea className="h-[700px]">
+          <DataTable columns={transactionColumns} data={transactions} />
+          <ScrollBar orientation="horizontal" />
+        </ScrollArea>
       </div>
     </>
   );
