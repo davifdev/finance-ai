@@ -9,7 +9,7 @@ import TransactionsPieChart from "./components/transactions-pie-chart";
 import ExpensesPerCategory from "./components/expenses-per-category";
 import LastTransactions from "./components/last-transactions";
 import { canUserAddTransaction } from "../data/can-user-add-transaction";
-
+import AIReportButton from "./components/ai-report-button";
 interface HomeProps {
   searchParams: {
     month: string;
@@ -17,7 +17,6 @@ interface HomeProps {
 }
 
 const Home = async ({ searchParams: { month } }: HomeProps) => {
-  console.log(month);
   const { userId } = await auth();
   if (!userId) {
     redirect("/login");
@@ -36,7 +35,10 @@ const Home = async ({ searchParams: { month } }: HomeProps) => {
       <div className="flex h-full flex-col space-y-6 overflow-hidden p-6">
         <div className="flex justify-between">
           <h1 className="text-2xl font-bold">Dashboard</h1>
-          <TimeSelect />
+          <div className="flex items-center gap-6">
+            <AIReportButton month={month} />
+            <TimeSelect />
+          </div>
         </div>
         <div className="grid h-full grid-cols-[2fr,1fr] gap-6 overflow-hidden">
           <div className="flex flex-col gap-6 overflow-hidden">
