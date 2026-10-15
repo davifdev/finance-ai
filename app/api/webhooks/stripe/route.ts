@@ -40,7 +40,7 @@ export const POST = async (request: Request) => {
 
   switch (event.type) {
     case "invoice.paid": {
-      const invoice = event.data.object as Stripe.Invoice;
+      const invoice = event.data.object;
       const customer = invoice.customer;
       const subscription = invoice.parent.subscription_details.subscription;
       const subscription_details = invoice.parent.subscription_details;
@@ -81,6 +81,44 @@ export const POST = async (request: Request) => {
         return new NextResponse("Clerk Update Error", { status: 500 });
       }
       break;
+    }
+    case "customer.subscription.deleted": {
+      const subscription = await stripe.subscriptions.retrieve(
+        event.data.object.id
+      );
+      const clerkUserId = subscription.metadata.clerk_user_id;
+      if (!clerkUserId) {
+        console.warn(
+          "⚠️ Evento recebido, mas clerk_user_id não foi encontrado nos metadados.",
+          clerkUserId
+        );
+        return NextResponse.error();
+      }
+
+      const stripeCustomerId = null;
+      const stripeSubscriptionId = null;
+
+      try {
+        await clerkClient().users.updateUserMetadata(clerkUserId, {
+          privateMetadata: {
+            stripeCustomerId,
+            stripeSubscriptionId,
+          },
+          publicMetadata: {
+            subscriptionPlan: null,
+          },
+        });
+        console.log(
+          `✅ Usuário do Clerk ${clerkUserId} atualizado com sucesso.`
+        );
+      } catch (clerkError: any) {
+        // CORREÇÃO: Força o status code a ser 500 se falhar no Clerk, evitando o "status code 0"
+        console.error(
+          "❌ Erro detalhado ao atualizar dados no Clerk:",
+          clerkError.message || clerkError
+        );
+        return new NextResponse("Clerk Update Error", { status: 500 });
+      }
     }
   }
 
