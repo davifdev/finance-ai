@@ -41,6 +41,7 @@ import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { addTransaction } from "../actions/add-transaction";
+import { toast } from "sonner";
 
 interface UpsertTransactionDialogProps {
   isOpen: boolean;
@@ -82,7 +83,7 @@ const UpsertTransactionDialog = ({
   const form = useForm<FormSchemaType>({
     resolver: zodResolver(formSchema),
     defaultValues: defaultValues ?? {
-      amount: 0,
+      amount: 10,
       category: TransactionCategory.EDUCATION,
       name: "",
       date: new Date(),
@@ -91,11 +92,18 @@ const UpsertTransactionDialog = ({
     },
   });
 
+  const isUpdating = Boolean(transactionId);
+
   const onSubmit = async (data: FormSchemaType) => {
     console.log(data);
     try {
       await addTransaction({ ...data, id: transactionId });
       setIsOpen(false);
+      if (isUpdating) {
+        toast.success("Transação atualizada com sucesso!");
+      } else {
+        toast.error("Transação criada com sucesso!");
+      }
       form.reset();
     } catch (error) {
       console.error(error);
