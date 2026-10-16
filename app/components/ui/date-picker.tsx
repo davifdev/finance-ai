@@ -8,11 +8,11 @@ import { cn } from "@/app/lib/utils";
 import { Button } from "./button";
 import { Calendar } from "./calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "./popover";
-import { SelectSingleEventHandler } from "react-day-picker";
 
 interface DatePickerProps {
   value?: Date;
-  onChange?: SelectSingleEventHandler;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  onChange?: any;
 }
 
 export const DatePicker = ({ value, onChange }: DatePickerProps) => {
