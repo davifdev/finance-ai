@@ -42,8 +42,9 @@ export const POST = async (request: Request) => {
     case "invoice.paid": {
       const invoice = event.data.object;
       const customer = invoice.customer;
-      const subscription = invoice.parent.subscription_details.subscription;
-      const subscription_details = invoice.parent.subscription_details;
+      const subscription = (invoice as any).parent.subscription_details
+        .subscription;
+      const subscription_details = (invoice as any).parent.subscription_details;
 
       const clerkUserId = subscription_details?.metadata?.clerk_user_id;
       if (!clerkUserId) {
